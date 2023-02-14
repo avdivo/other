@@ -4,11 +4,12 @@ from pynput import keyboard, mouse
 
 # Действие, когда пользователь нажимает клавишу на клавиатуре
 def on_press(key):
-    print(f'Была нажата клавиша {key}')
     if key == keyboard.Key.shift_r:
         keyboard_listener.stop()
         mouse_listener.stop()
         return
+    print(f'Была нажата клавиша {key}')
+    return
 
 
 # Действие, когда пользователь отпускает клавишу на клавиатуре
@@ -53,25 +54,24 @@ mouse_listener = mouse.Listener(
     on_scroll=on_scroll
 )
 
-def on_press(key):
-    if key == keyboard.Key.shift_r:
-        keyboard_listener.stop()
-        mouse_listener.stop()
-
 
 A = True
 
 while A:
-    print("")
-    vvedeno_luboe = input("Введите текст: ")
-    print("")
-    if vvedeno_luboe == ('0'):
-        A = False
-    elif vvedeno_luboe == ('8'):
-        # Старт прослушки мыши
-        mouse_listener.start()
-        # Старт прослушки клавиатуры
-        keyboard_listener.start()
+
+    if not mouse_listener.running:
+        print("")
+        vvedeno_luboe = input("Введите текст: ")
+        print("")
+        if vvedeno_luboe == ('0'):
+            A = False
+        elif vvedeno_luboe == ('8'):
+            print(mouse_listener.running, keyboard_listener.running)
+            # Старт прослушки мыши
+            mouse_listener.start()
+            # Старт прослушки клавиатуры
+            keyboard_listener.start()
+
 
 
 time.sleep(10)
